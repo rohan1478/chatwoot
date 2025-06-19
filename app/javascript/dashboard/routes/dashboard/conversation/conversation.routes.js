@@ -1,7 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 import ConversationView from './ConversationView.vue';
-import PlayModeView from './PlayModeView.vue';
+import ConversationPlayModeView from './ConversationPlayModeView.vue';
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',
@@ -169,7 +169,7 @@ export default {
       meta: {
         permissions: CONVERSATION_PERMISSIONS,
       },
-      component: PlayModeView,
+      component: ConversationPlayModeView,
       props: () => {
         return { inboxId: 0 };
       },
