@@ -1,6 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 import ConversationView from './ConversationView.vue';
+import PlayModeView from './PlayModeView.vue';
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',
@@ -161,6 +162,17 @@ export default {
       },
       component: ConversationView,
       props: () => ({ conversationType: 'unattended' }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/playmode/conversations'),
+      name: 'conversation_playmode',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: PlayModeView,
+      props: () => {
+        return { inboxId: 0 };
+      },
     },
     {
       path: frontendURL(
