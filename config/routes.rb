@@ -116,6 +116,7 @@ Rails.application.routes.draw do
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              resources :conversation_skips, only: [:index, :create]
             end
             member do
               post :mute
@@ -346,6 +347,7 @@ Rails.application.routes.draw do
               get :inbox
               get :label
             end
+          resources :conversation_skip_summary, only: [:index]
           end
           resources :reports, only: [:index] do
             collection do
@@ -523,7 +525,7 @@ Rails.application.routes.draw do
 
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
-      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
+      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]

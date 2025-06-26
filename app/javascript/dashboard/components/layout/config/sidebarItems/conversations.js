@@ -22,6 +22,7 @@ const conversations = accountId => ({
     'conversation_through_unattended',
     'conversation_playmode',
     'conversation_through_playmode',
+    'conversation_skips',
   ],
   menuItems: [
     {
@@ -52,6 +53,13 @@ const conversations = accountId => ({
       key: 'conversation_playmode',
       toState: frontendURL(`accounts/${accountId}/playmode/conversations`),
       toStateName: 'conversation_playmode',
+    },
+    {
+      icon: 'skip-forward',
+      label: 'CONVERSATION_SKIPS.MENU_ITEM',
+      key: 'conversation_skips',
+      toState: frontendURL(`accounts/${accountId}/dashboard/conversation/skips`),
+      toStateName: 'conversation_skips',
     },
   ],
 });

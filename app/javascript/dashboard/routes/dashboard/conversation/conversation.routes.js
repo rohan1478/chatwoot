@@ -2,6 +2,7 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import ConversationView from './ConversationView.vue';
 import ConversationPlayModeView from './ConversationPlayModeView.vue';
+import ConversationSkipsView from './ConversationSkipsView.vue';
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',
@@ -173,6 +174,14 @@ export default {
       props: () => {
         return { inboxId: 0 };
       },
+    },
+    {
+      path: frontendURL('accounts/:accountId/dashboard/conversation/skips'),
+      name: 'conversation_skips',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationSkipsView,
     },
     {
       path: frontendURL(
