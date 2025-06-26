@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_24_194552) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -531,6 +531,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.index ["user_id"], name: "index_conversation_participants_on_user_id"
   end
 
+  create_table "conversation_skips", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.text "reason", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id", "created_at"], name: "index_conversation_skips_on_conversation_id_and_created_at"
+    t.index ["conversation_id"], name: "index_conversation_skips_on_conversation_id"
+    t.index ["user_id"], name: "index_conversation_skips_on_user_id"
+  end
+
   create_table "conversations", id: :serial, force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "inbox_id", null: false
@@ -907,7 +918,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.text "header_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.jsonb "config", default: {"allowed_locales" => ["en"]}
     t.boolean "archived", default: false
     t.bigint "channel_web_widget_id"
     t.index ["channel_web_widget_id"], name: "index_portals_on_channel_web_widget_id"
@@ -1101,6 +1112,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversation_skips", "conversations"
+  add_foreign_key "conversation_skips", "users"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

@@ -73,6 +73,12 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getConversationSkipReports({ from: since, to: until, businessHours }) {
+    return axios.get(`${this.url}/conversation_skip`, {
+      params: { since, until, business_hours: businessHours },
+    });
+  }
+
   getInboxReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/inboxes`, {
       params: { since, until, business_hours: businessHours },

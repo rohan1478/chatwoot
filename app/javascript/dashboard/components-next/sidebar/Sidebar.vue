@@ -141,6 +141,18 @@ const menuItems = computed(() => {
           to: accountScopedRoute('conversation_unattended'),
         },
         {
+          name: 'Play Mode',
+          activeOn: ['conversation_through_playmode'],
+          label: t('SIDEBAR.PLAYMODE_CONVERSATIONS'),
+          to: accountScopedRoute('conversation_playmode'),
+        },
+        {
+          name: 'Skips',
+          activeOn: ['conversation_skips'],
+          label: t('CONVERSATION_SKIPS.MENU_ITEM'),
+          to: accountScopedRoute('conversation_skips'),
+        },
+        {
           name: 'Folders',
           label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
           icon: 'i-lucide-folder',

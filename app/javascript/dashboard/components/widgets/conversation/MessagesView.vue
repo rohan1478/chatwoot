@@ -109,6 +109,7 @@ export default {
       isProgrammaticScroll: false,
       messageSentSinceOpened: false,
       labelSuggestions: [],
+      hideActionEvents: false, 
     };
   },
 
@@ -157,10 +158,17 @@ export default {
     },
     getMessages() {
       const messages = this.currentChat.messages || [];
+      let filteredMessages = messages;
+      
       if (this.isAWhatsAppChannel) {
-        return filterDuplicateSourceMessages(messages);
+        filteredMessages = filterDuplicateSourceMessages(messages);
       }
-      return messages;
+      
+      if (this.hideActionEvents) {
+        filteredMessages = filteredMessages.filter(message => message.message_type !== 2);
+      }
+      
+      return filteredMessages;
     },
     readMessages() {
       return getReadMessages(
@@ -291,6 +299,14 @@ export default {
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
     },
+    
+    hideActionEvents() {
+      this.$nextTick(() => {
+        if (!this.hasUserScrolled) {
+          this.scrollToBottom();
+        }
+      });
+    },
   },
 
   created() {
@@ -316,6 +332,10 @@ export default {
   },
 
   methods: {
+    toggleActionEventsFilter() {
+      this.hideActionEvents = !this.hideActionEvents;
+    },
+    
     async fetchSuggestions() {
       // start empty, this ensures that the label suggestions are not shown
       this.labelSuggestions = [];
@@ -507,6 +527,20 @@ export default {
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
+    
+    <div class="flex justify-end p-2">
+      <button
+        @click="toggleActionEventsFilter"
+        class="button flex items-center w-auto h-8 p-4 transition-all border rounded-full bg-n-alpha-2 group  button--secondary"
+        :class="{
+          'button--primary': hideActionEvents,
+          'button--secondary': !hideActionEvents
+        }"
+      >
+        {{ hideActionEvents ? 'Show Event Logs' : 'Hide Event Logs' }}
+      </button>
+    </div>
+    
     <NextMessageList
       v-if="showNextBubbles"
       ref="conversationPanelRef"
